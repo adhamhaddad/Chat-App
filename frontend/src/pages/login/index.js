@@ -99,11 +99,6 @@ const schema = yup.object().shape({
   password: yup.string().min(5).required()
 })
 
-const defaultValues = {
-  password: 'adhamhaddad123',
-  email: 'adhamhaddad.dev@gmail.com'
-}
-
 const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
@@ -124,7 +119,6 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors }
   } = useForm({
-    defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
@@ -272,7 +266,7 @@ const LoginPage = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       error={Boolean(errors.email)}
-                      placeholder='adhamhaddad.dev@gmail.com'
+                      placeholder='user@gmail.com'
                     />
                   )}
                 />

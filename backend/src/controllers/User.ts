@@ -11,9 +11,10 @@ const user = new User();
 export const createUser = async (req: Request, res: Response) => {
   try {
     const response = await user.createUser(req.body);
+    const accessToken = await signAccessToken(response);
     res.status(201).json({
       status: true,
-      data: { ...response },
+      data: { accessToken },
       message: 'User created successfully.'
     });
   } catch (error) {
@@ -74,6 +75,21 @@ export const updatePassword = async (req: Request, res: Response) => {
     res.status(203).json({
       status: true,
       message: 'Password updated successfully.'
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: false,
+      message: (error as Error).message
+    });
+  }
+};
+export const deactivateUser = async (req: Request, res: Response) => {
+  try {
+    const response = await user.deactivateUser(req.params.id);
+    res.status(200).json({
+      status: true,
+      data: { ...response },
+      message: 'User deactivated successfully.'
     });
   } catch (error) {
     res.status(400).json({

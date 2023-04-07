@@ -117,7 +117,7 @@ const AuthProvider = ({ children }) => {
           handleLogin({ email: params.email, password: params.password })
         }
       })
-      .catch(err => (errorCallback ? errorCallback(err) : null))
+      .catch(err => (errorCallback ? errorCallback(err.response.data.errors) : null))
   }
 
   const values = {

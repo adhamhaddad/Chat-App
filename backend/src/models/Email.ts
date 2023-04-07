@@ -9,30 +9,32 @@ export type EmailType = {
 
 class Email {
   async createEmail(e: EmailType): Promise<EmailType> {
+    const connection = await database.connect();
     try {
-      const connection = await database.connect();
       const sql = `INSERT INTO emails (email, user_id) VALUES ($1, $2) RETURNING *`;
       const result = await connection.query(sql, [e.email, e.user_id]);
-      connection.release();
       return result.rows[0];
     } catch (error) {
       throw new Error((error as Error).message);
+    } finally {
+      connection.release();
     }
   }
   async getEmails(id: string): Promise<EmailType[]> {
+    const connection = await database.connect();
     try {
-      const connection = await database.connect();
       const sql = `SELECT * FROM emails WHERE user_id=$1`;
       const result = await connection.query(sql, [id]);
-      connection.release();
       return result.rows;
     } catch (error) {
       throw new Error((error as Error).message);
+    } finally {
+      connection.release();
     }
   }
   async updateEmail(id: string, e: EmailType): Promise<EmailType> {
+    const connection = await database.connect();
     try {
-      const connection = await database.connect();
       const sql = `UPDATE emails SET email=$2, is_default=$3, is_verified=$4 WHERE id=$1 RETURNING *`;
       const result = await connection.query(sql, [
         id,
@@ -40,21 +42,23 @@ class Email {
         e.is_default,
         e.is_verified
       ]);
-      connection.release();
       return result.rows[0];
     } catch (error) {
       throw new Error((error as Error).message);
+    } finally {
+      connection.release();
     }
   }
   async deleteEmail(id: string): Promise<EmailType> {
+    const connection = await database.connect();
     try {
-      const connection = await database.connect();
       const sql = `DELETE FROM emails WHERE id=$1 RETURNING *`;
       const result = await connection.query(sql, [id]);
-      connection.release();
       return result.rows[0];
     } catch (error) {
       throw new Error((error as Error).message);
+    } finally {
+      connection.release();
     }
   }
 }

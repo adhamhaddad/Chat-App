@@ -5,10 +5,10 @@ const email = new Email();
 
 export const createEmail = async (req: Request, res: Response) => {
   try {
-    const response = await email.createEmail(req.body);
+    // const response = await email.createEmail(req.body);
     res.status(201).json({
       status: true,
-      data: { ...response },
+      // data: { ...response },
       message: 'Email created successfully.'
     });
   } catch (error) {

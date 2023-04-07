@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -10,12 +10,13 @@ import Spinner from 'src/components/spinner'
 // ** Hook Imports
 import { useAuth } from 'src/hooks/useAuth'
 
+import io from 'socket.io-client'
 /**
  *  Set Home URL based on User Roles
  */
 export const getHomeRoute = role => {
   if (role === 'client') return '/acl'
-  else return '/chat'
+  else return '/user-profile/profile'
 }
 
 const Home = () => {
@@ -25,7 +26,6 @@ const Home = () => {
   useEffect(() => {
     if (auth.user && auth.user.role) {
       const homeRoute = getHomeRoute(auth.user.role)
-
       // Redirect user to Home URL
       router.replace(homeRoute)
     }
